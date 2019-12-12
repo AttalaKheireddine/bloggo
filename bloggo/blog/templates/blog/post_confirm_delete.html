@@ -1,0 +1,7 @@
+{% extends "blog/base.html" %} {% block content %} 
+    <fouorm action="" method = "POST">
+        {% csrf_token %}
+        <p>Are you sure ya wanna remove {{object}}? it will be away forever...</p>
+        <input type="submit" class="btn btn-danger" value="Delete">
+    </form>
+{% endblock %}
