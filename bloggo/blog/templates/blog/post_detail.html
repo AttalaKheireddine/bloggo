@@ -8,38 +8,44 @@
 </div>
 
 {% else %}
-<a href="{% url 'post_publish' pk=post.pk %}" class="btn btn-default"></a>
+<a href="{% url 'publish_post' pk=post.pk %}" class="btn btn-default"
+  >publish</a
+>
 {% endif %}
 <p class="postcontent">
-  {{post.title|safe|linebreaksbr}}
+  {{post.text|safe|linebreaksbr}}
 </p>
 
 {% if user.is_authenticated %}
 <a href="{% url 'post_edit' pk=post.pk %}" class="btn btn-primary">
-  <span class="glyphicon glyphicon-pencil"></span>
+  <span class="glyphicon glyphicon-pencil">edit</span>
 </a>
 <a href="{% url 'post_remove' pk=post.pk %}" class="btn btn-primary">
-  <span class="glyphicon glyphicon-remove"></span>
+  <span class="glyphicon glyphicon-remove">publish</span>
 </a>
 <hr />
-<a
-  href="{% url 'add_comment_to_post' pk=post.pk %}"
-  class="btn btn-primary"
-></a>
+{% endif %}
+<a href="{% url 'add_comment_to_post' pk=post.pk %}" class="btn btn-primary"
+  >Add Comment</a
+>
 <div class="container">
-  {% for comment in post.comments.all %}
+  {% for comment in post.comments.all %} qqq
   <br />
   {% if user.is_authenticated or comment.approved_comment %}
-  {{comment.created_date}} {% if not comment.approved_comment %} {% endif %}
-  <a href="{% url 'comment_remove' pk=comment.pk %}" class="btn btn-default">
-    <span class="glyphicon glyphicon-remove"></span>
-  </a>
-  <a href="{% url 'comment_approve' pk=comment.pk %}" class="btn btn-default">
-    <span class="glyphicon glyphicon-ok"></span>
-  </a>
-  <p>{{comment.text|safe|linebreaks}}</p>
+  {{comment.created_date}} {% if not comment.approved_comment %}
+  <a class="btn btn-default" href="{% url 'remove_comment' pk=comment.pk %}"
+    ><span class="glyphicon glyphicon-remove">remove</span></a
+  >
+  <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"
+    ><span class="glyphicon glyphicon-ok">approve</span></a
+  >
+  {% endif %}
+
+  <p>{{ comment.text|safe|linebreaks }}</p>
+  <p>Posted by: <strong>{{ comment.author }}</strong></p>
+
   {% endif %} {% empty %}
-  <p>No Comment</p>
+  <p>No comments posted.</p>
   {% endfor %}
 </div>
-{% endif %} {% endblock%}
+{% endblock%}
